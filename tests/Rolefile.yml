@@ -1,6 +1,8 @@
 
-- src: "debops.users"
-  version: "v0.1.0"
+# Manage user accounts
+- src: "ANXS.generic-users"
+  version: "v1.0.5"
+
 - src: 'https://github.com/ANXS/postgresql.git'
   version: 'master'
   name: 'ANXS.postgresql'

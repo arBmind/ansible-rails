@@ -4,20 +4,27 @@
   vars:
     postgresql_encoding: 'UTF-8'
     postgresql_locale: 'en_US.UTF-8'
+
   pre_tasks:
-    - apt: pkg=locales
+    - apt:
+        pkg: locales
     - file:
         path: '/etc/locale.gen'
         state: 'absent'
     - shell: 'locale-gen "en_US.UTF-8"'
+    -
+
   roles:
-    - role: debops.users
-      users: yes
-      users_list:
+    - role: ANXS.generic-users
+      genericusers_users:
         - name: "{{ app_user }}"
           groups:
-          - 'www-data'
-          state: 'present'
+            - 'www-data'
+          ssh_keys: []
+          shell: /bin/bash
+          state: present
+
+    - dresden-weekly.Rails/postgresql
 
     - ruby/rvm
     - ruby/postgresql
@@ -48,8 +55,7 @@
     - nginx/webrick
 
 
-- hosts:
-  - app
+- hosts: app
   become: yes
   become_user: '{{ app_user }}'
   remote_user: '{{ app_user }}'
