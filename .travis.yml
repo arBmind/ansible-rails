@@ -21,4 +21,4 @@ install:
   - 'ansible-galaxy install -r tests/Rolefile.yml'
 
 script:
-  - 'ansible-playbook -i tests/inventory tests/$SITE'
+  - 'ansible-playbook -i tests/inventory tests/$SITE --sudo'
