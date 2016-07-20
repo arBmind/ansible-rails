@@ -9,7 +9,7 @@ env:
 before_install:
   # Make sure everything's up to date.
   - sudo apt-get update -qq
-  - sudo service stop postgresql
+  - sudo /etc/init.d/postgresql stop
 
 install:
   # Install Ansible
