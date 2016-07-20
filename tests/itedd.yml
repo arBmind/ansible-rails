@@ -24,7 +24,7 @@
           shell: /bin/bash
           state: present
 
-    - dresden-weekly.Rails/postgresql
+    - postgresql
 
     - ruby/rvm
     - ruby/postgresql
