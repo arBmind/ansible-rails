@@ -6,6 +6,9 @@ dist: 'trusty'
 env:
   - SITE=itedd.yml
 
+addons:
+  postgresql: "9.3"
+
 before_install:
   # Make sure everything's up to date.
   - sudo apt-get update -qq
