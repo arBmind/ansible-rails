@@ -18,14 +18,14 @@
 - name: Install RVM
   shell: >
     curl -L https://get.rvm.io
-    | bash -s stable --autolibs=disable --auto-dotfiles
+    | bash -s stable --autolibs=read-fail --auto-dotfiles
   args:
     creates: ~/.rvm
     warn: no # don't show the curl warning (get_url can't pipe the script to bash)
   become: yes
   become_user: "{{ rvm_user }}"
 
-- name: Ruby versions
+- name: Ruby install
   shell: >
     ~/.rvm/bin/rvm install
     {{ '--default' if item == rvm_default else '' }}

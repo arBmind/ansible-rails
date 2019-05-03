@@ -28,5 +28,9 @@
   changed_when: >
     rails_bundle_result.stdout is defined
     and 'Installing' in rails_bundle_result.stdout
+  async: 300
+  until: rails_bundle_result.rc is defined and rails_bundle_result.rc == 0
+  retries: 5
+  delay: 1
   notify:
   - restart rails app

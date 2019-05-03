@@ -6,10 +6,18 @@
   register: rvm_gpg_keys_checks
   become: yes
   become_user: "{{ rvm_user }}"
-  with_items: "{{ rvm_gpg_keys_list }}"
+  with_items: "{{ rvm_gpg_keys }}"
+
+- name: Use Ipv4 Only
+  lineinfile:
+    path: '/home/{{ rvm_user }}/.gnupg/dirmngr.conf'
+    line: 'disable-ipv6'
+    create: yes
+  become: yes
+  become_user: "{{ rvm_user }}"
 
 - name: Import GPG keys
-  command: 'gpg --keyserver {{ rvm_gpg_key_server }} --recv-keys {{ rvm_gpg_keys_list[item.0] }}'
+  command: 'gpg --keyserver {{ rvm_gpg_key_server }} --recv-keys {{ rvm_gpg_keys[item.0] }}'
   ignore_errors: yes
   register: rvm_import_gpg_keys_result
   become: yes
@@ -23,7 +31,13 @@
   when: item.item.1.rc != 0
 
 - name: Alternative GPG keys
-  shell: 'curl -sSL {{ rvm_gpg_key_alternative_url }} | gpg --import -'
+  shell: 'curl -sSL {{ rvm_gpg_key_alternative_urls | random }} | gpg --import -'
+  args:
+    warn: false
+  retries: 5
+  delay: 1
+  register: result
+  until: result.rc == 0
   become: yes
   become_user: "{{ rvm_user }}"
   when: rvm_gpg_failed is defined and rvm_gpg_failed
