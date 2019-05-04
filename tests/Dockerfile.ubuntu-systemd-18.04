@@ -1,4 +1,4 @@
-FROM travisci/gce-parity:18.04
+FROM travisci/ubuntu-systemd:18.04
 
 # Install Ansible
 RUN apt-get update && apt-get install -y \
@@ -6,6 +6,8 @@ RUN apt-get update && apt-get install -y \
   git \
   sudo \
   apt-transport-https \
+  init \
+  iproute2 \
   locales \
 && apt-add-repository -y ppa:ansible/ansible \
 && apt-get update && apt-get install -y ansible \

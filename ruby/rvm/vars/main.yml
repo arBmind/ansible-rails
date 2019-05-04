@@ -20,3 +20,4 @@ rvm_packages:
 - libssl1.0-dev
 - autoconf
 - automake
+- gawk

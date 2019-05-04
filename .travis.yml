@@ -12,7 +12,7 @@ env:
   #   init: /usr/lib/systemd/systemd
   #   run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
   - provider: travisci/
-    distribution: gce-parity
+    distribution: ubuntu-systemd
     version: 18.04
     init: /sbin/init
     run_opts: "systemd"
