@@ -27,11 +27,12 @@
 
 - name: Ruby versions
   shell: >
+    ~/.rvm/bin/rvm get stable &&
     ~/.rvm/bin/rvm install
     {{ '--default' if item == rvm_default else '' }}
     {{ item }}
   args:
-    creates: "~/.rvm/rubies/ruby-{{ item }}"
+    creates: "~/.rvm/rubies/ruby-{{ item }}/bin/ruby"
   become: true
   become_user: "{{ rvm_user }}"
   with_flattened:

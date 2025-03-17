@@ -1,0 +1,5 @@
+---
+- name: Restart Rails App
+  file:
+    path: "{{ RAILS_APP_RESTART_PATH }}"
+    state: touch

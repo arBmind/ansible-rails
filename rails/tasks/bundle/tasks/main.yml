@@ -7,20 +7,40 @@
 - include: RedHat.yml
   when: ansible_os_family == "RedHat"
 
+- name: Bundle config
+  command: >
+    {{ profile }}
+    'bundle config set --local {{ item }}'
+  args:
+    chdir: "{{ RAILS_APP_RELEASE_PATH }}"
+  when: bundle_config
+  vars:
+    data:
+      - "deployment {% if bundle_deployment %}true{% else %}false{% endif %}"
+      - "frozen {% if bundle_frozen %}true{% else %}false{% endif %}"
+      - "bin \"{% if bundle_generate_binstubs %}\"{{ bundle_binstubs }}\"{% else %}false{% endif %}\""
+      - "without \"{{ bundle_without | join(' ') }}\""
+      - "path \"{{ bundle_path }}\""
+      - "{{ bundle_config_extra }}"
+  loop: "{{ data | flatten }}"
+  changed_when: false
+
 - name: Bundle install
   command: >
     {{ profile }}
     'bundle install
-    {% if bundle_deployment %}
-    --deployment
+    {% if not bundle_config %}
+      {% if bundle_deployment %}
+      --deployment
+      {% endif %}
+      {% if bundle_generate_binstubs %}--binstubs {{ bundle_binstubs }}
+      {% else %}--no-binstubs {% endif %}
+      {% if bundle_frozen %} --frozen {% endif %}
+      --path {{ bundle_path }}
+      --without {{ bundle_without | join(' ') }}
     {% endif %}
-    {% if bundle_generate_binstubs %}--binstubs {{ bundle_binstubs }}
-    {% else %}--no-binstubs {% endif %}
-    {% if bundle_frozen %} --frozen {% endif %}
     --jobs {{bundle_jobs}}
     --gemfile {{ bundle_gemfile }}
-    --path {{ bundle_path }}
-    --without {{ bundle_without | join(' ') }}
     {{ bundle_flags | join(' ') }}'
   args:
     chdir: "{{ RAILS_APP_RELEASE_PATH }}"

@@ -29,3 +29,6 @@ bundle_without:
 # options for the Bundler
 bundle_flags:
 - "--quiet"
+
+bundle_config: false
+bundle_config_extra: []
