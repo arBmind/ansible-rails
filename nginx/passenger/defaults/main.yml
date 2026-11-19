@@ -11,7 +11,7 @@ passenger_cloak_headers: true
 # app_hosts: "www.example.com example.com en.example.com de.example.de"
 app_hosts: "{{ app_domain }}"
 
-apache_passenger_key_url: "https://oss-binaries.phusionpassenger.com/auto-software-signing-gpg-key.txt"
+apache_passenger_key_url: "https://oss-binaries.phusionpassenger.com/auto-software-signing-gpg-key-2025.txt"
 apache_passenger_apt_uri: "https://oss-binaries.phusionpassenger.com/apt/passenger"
 
 passenger_variables:
